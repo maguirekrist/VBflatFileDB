@@ -1,0 +1,9 @@
+C:\Users\s25737610\Desktop\KristVBProjects\Krist2-6lab\Krist2-6lab\bin\Debug\Krist2-6lab.exe.config
+C:\Users\s25737610\Desktop\KristVBProjects\Krist2-6lab\Krist2-6lab\bin\Debug\Krist2-6lab.exe
+C:\Users\s25737610\Desktop\KristVBProjects\Krist2-6lab\Krist2-6lab\bin\Debug\Krist2-6lab.pdb
+C:\Users\s25737610\Desktop\KristVBProjects\Krist2-6lab\Krist2-6lab\bin\Debug\Krist2-6lab.xml
+C:\Users\s25737610\Desktop\KristVBProjects\Krist2-6lab\Krist2-6lab\obj\Debug\Krist2_6lab.Resources.resources
+C:\Users\s25737610\Desktop\KristVBProjects\Krist2-6lab\Krist2-6lab\obj\Debug\Krist2-6lab.vbproj.GenerateResource.Cache
+C:\Users\s25737610\Desktop\KristVBProjects\Krist2-6lab\Krist2-6lab\obj\Debug\Krist2-6lab.exe
+C:\Users\s25737610\Desktop\KristVBProjects\Krist2-6lab\Krist2-6lab\obj\Debug\Krist2-6lab.xml
+C:\Users\s25737610\Desktop\KristVBProjects\Krist2-6lab\Krist2-6lab\obj\Debug\Krist2-6lab.pdb
