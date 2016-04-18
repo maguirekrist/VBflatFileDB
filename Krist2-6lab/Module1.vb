@@ -1,4 +1,6 @@
 ﻿Imports System.IO
+Imports System.Text.RegularExpressions
+
 
 Module Module1
 
@@ -18,13 +20,34 @@ failSafe1:
             Case "Add Member"
                 Dim tempName As String
                 Dim tempID As String
+                Dim tempTele As String
+                Dim tempDate As String
                 Dim addingMems As Boolean = True
+                Dim regexID As String = "^[A-Z]{1}[a-z]{2}[0-9]{3}$"
+                Dim regexDate As String = "^[0-9]{2}/[0-9]{2}/[0-9]{2}$"
+                Dim regexTele As String = "^[0-9]{3}-[0-9]{3}-[0-9]{5}$"
                 Console.Clear()
                 Do
                     Console.WriteLine("Please enter the name of new member: ")
                     tempName = Console.ReadLine()
+failSafe2:
                     Console.WriteLine("Please enter the ID of new member:")
                     tempID = Console.ReadLine()
+                    If Regex.IsMatch(tempID, regexID) Then
+
+                    Else
+                        Console.WriteLine("Invalid format for ID")
+                        GoTo failSafe2
+                    End If
+failSafe3:
+                    Console.WriteLine("Please enter the Telephone of the new memeber:")
+                    tempTele = Console.ReadLine()
+                    If Regex.IsMatch(tempTele, regexTele) Then
+
+                    Else
+                        Console.WriteLine("Invalid format for Telephone")
+                        GoTo failSafe3
+                    End If
                     AddMember(tempName, tempID, stWriter)
                     Console.WriteLine("Continue adding another member? (Y,N): ")
                     If Console.ReadLine = "Y" Then
@@ -35,18 +58,34 @@ failSafe1:
                     End If
                 Loop Until addingMems = False
             Case "Remove Member"
-                Dim tempID As Integer
+removemember:
+                Dim tempID As String
                 Dim tempLine As Integer
                 Console.WriteLine("Enter the ID of the member you wish to delete: ")
                 tempID = Console.ReadLine()
                 tempLine = GetLineOfMember(tempID, stReader)
                 RemoveMember(tempID, tempLine)
                 Console.WriteLine("Successfully removed member " + tempID.ToString)
-                GoTo Menu
+                Console.WriteLine("remove another member? (Y/N)")
+                If Console.ReadLine = "Y" Then
+                    GoTo removemember
+                Else
+                    GoTo menu
+                End If
             Case "ReadAll"
                 ReadAll()
+                GoTo Menu
             Case "SearchMember"
-
+searchmember:
+                Console.WriteLine("Please enter the ID or Name of user: ")
+                Dim searchParam = Console.ReadLine()
+                Console.WriteLine(SearchMember(searchParam))
+                Console.WriteLine("Search for another member? (Y,N)")
+                If Console.ReadLine = "Y" Then
+                    GoTo searchmember
+                Else
+                    GoTo menu
+                End If
             Case "Exit"
                 Console.WriteLine("GoodBye")
                 ExitProgram(stWriter)
@@ -72,7 +111,7 @@ failSafe1:
         CloseFileWriter(writer)
     End Sub
 
-    Sub RemoveMember(ByVal ID As Integer, ByVal lineOfMember As Integer)
+    Sub RemoveMember(ByVal ID As String, ByVal lineOfMember As Integer)
         Dim lines() As String = System.IO.File.ReadAllLines(fileLocation)
         lines(lineOfMember - 1) = ""
         Try
@@ -84,19 +123,18 @@ failSafe1:
 
     Sub ReadAll()
         Dim Lines() As String = File.ReadAllLines(fileLocation)
+        Console.WriteLine("---------")
+        Console.WriteLine("ID     name")
         For Each row In Lines
             Dim rowData() = Split(row, ", ")
-            For Each data1 In rowData
-                Console.WriteLine(data1)
-            Next
             If row <> "" Then
-                Console.WriteLine(row)
+                Console.WriteLine(rowData(0) + "     " + rowData(1))
             End If
         Next
         Console.ReadLine()
     End Sub
 
-    Function GetLineOfMember(ByVal ID As Integer, ByRef reader As StreamReader)
+    Function GetLineOfMember(ByVal ID As String, ByRef reader As StreamReader)
         OpenFileReader(reader)
         Dim lineNum As Integer
         Dim data As String()
@@ -115,14 +153,20 @@ failSafe1:
 
 
     'Overloading search function, it may return more than 1 member.
-    Function SearchMember(ByVal name As String)
-
-
-    End Function
-
-    Function SearchMember(ByVal ID As Integer)
-
-
+    Function SearchMember(ByVal data As String)
+        Dim regexReq As String = "^[A-Z]{1}[a-z]{2}[0-9]{3}$"
+        Dim lines() = File.ReadAllLines(fileLocation)
+        For Each line In lines
+            If line.Contains(data) Then
+                Dim info() As String = Split(line, ", ")
+                Console.WriteLine("User found: ")
+                Console.WriteLine("ID      NAME        ")
+                Return line
+            Else
+                Continue For
+            End If
+        Next
+        Return "ERROR UNKNOWN!"
     End Function
 
     'Utility Function to manage the opening and the closing of our IO system
